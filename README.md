@@ -8,8 +8,7 @@ first create a python virtual environment:
 python -m venv /path/to/new/virtual/environment
 cd /path/to/new/virtual/environment
 ```
-activate virtual environment:
-on **Windows**:
+activate virtual environment on **Windows**:
 ```
 Scripts\activate
 ```
