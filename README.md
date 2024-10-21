@@ -12,6 +12,9 @@ clone repo into virtual environment:
 ```
 git clone https://github.com/anonzerg/diode.git
 ```
+connect your board to you pc using USB.
+launch ardiono program and upload main.ino located ad ./diode/main.ino
+
 install required libraries:
 ```
 pip install requirments.txt
