@@ -19,5 +19,4 @@ if __name__ == "__main__":
     print("=" * 80)
     print("processing data and creating plot...")
     print("=" * 80)
-    subprocess.run(["python", "./src/linearReg_plot.r"])
-
+    subprocess.run(["python", "./src/linearReg_plot.py"])
