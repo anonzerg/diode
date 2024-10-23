@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 #                                     physical constant name    | unit
@@ -8,7 +9,7 @@ from scipy.constants import h as h  # planck's constant         | J.s
 from scipy.constants import c as c  # speed of light            | m/s
 from scipy.optimize import curve_fit
 
-def load_data(file_path):
+def load_data(file_path: str) -> list[float]:
     """ read data from text file. """
 
     data = []
@@ -25,12 +26,12 @@ def load_data(file_path):
 
     return data
 
+def lin_model(x: float, slope: float, intercept: float) -> float:
+    return (slope * x + intercept)
+
 # https://en.wikipedia.org/wiki/Coefficient_of_determination
-def coefficient_of_determination(x_vec, y_vec):
+def coefficient_of_determination(x_vec: list[float], y_vec: list[float]) -> float:
     """ provides a measure of how well observed outcomes are replicated by the model. """
-    def lin_model(x, slope, intercept):
-        y = slope * x + intercept
-        return y
 
     parameters, covariance = curve_fit(lin_model, x_vec, y_vec)
     slope, intercept = parameters
@@ -44,18 +45,17 @@ def coefficient_of_determination(x_vec, y_vec):
 
     sum_of_square_residual = np.sum(np.square(residual))
     sum_of_square_total = np.sum(y_vec - y_mean)
+    if sum_of_square_total == 0:
+        return float("nan")
     r2 = 1.0 - (sum_of_square_residual / sum_of_square_total)
     return r2
 
 
-def sliding_window(x_vec, y_vec, window_size):
+def sliding_window(x_vec: list[float], y_vec: list[float], window_size: int) -> tuple[float, float]:
     """ separate linear portion of data using sliding window algorithm. """
     best_r2 = -np.inf
     best_start = 0
     n = x_vec.size
-    def lin_model(x, slope, intercept):
-        y = slope * x + intercept
-        return y
     
     parameters, covariance = curve_fit(lin_model, x_vec, y_vec)
     slope, intercept = parameters
@@ -68,12 +68,14 @@ def sliding_window(x_vec, y_vec, window_size):
 
         y_pred = np.array(y_pred)
     r2 = coefficient_of_determination(y_window, y_pred)
+    if math.isnan(r2):
+        return (None, None)
     print(r2)
     if r2 > best_r2:
         best_r2 = r2
         best_start = i
     end = best_start + window_size
-    return best_start, end
+    return (best_start, end)
 
 def main():
     try:
@@ -97,7 +99,7 @@ def main():
         data = load_data("./data/data.txt")
         if not data:
             print("[-] failed to load data or data is empty.")
-            exit()
+            exit(1)
 
         data = np.array(data)
         # save 1st column as voltage and 2nd column as current
@@ -110,12 +112,14 @@ def main():
 
         # fit log-scale current
         log_current = np.log(current)
-        #coefficients = np.polyfit(voltage, log_current, 1)
-        #slope, intercept = coefficients
         
         # number of data point selected from linear portion of data
         window_size = 40
-        start, end = sliding_window(voltage, log_current, window_size)
+        (start, end) = sliding_window(voltage, log_current, window_size)
+        if (start == None) or (end == None):
+            print("[-] sliding_window failed.")
+            exit(1)
+
         def func(voltage, slope, intercept):
             current = slope * voltage + intercept
             return current
@@ -132,8 +136,6 @@ def main():
         # plot voltage-current graph of diode
         plt.figure(1)
         plt.plot(voltage, current, "*", label = "data points")
-        #plt.plot(voltage, slope * voltage + intercept, color="red", label="fitted line")
-        #plt.plot(voltage, func(voltage, slope, intercept), color = "red", label = "fitted line")
         plt.xlabel("voltage (V)")
         plt.ylabel("current (mA)")
         plt.title("I-V characteristic of diode")
@@ -143,7 +145,6 @@ def main():
         # plot log-scale of I-V graph
         plt.figure(2)
         plt.plot(voltage, np.log(current), "+")
-        #plt.plot(voltage, slope * voltage + intercept, color="red", label="fitted line")
         plt.plot(voltage, func(voltage, slope, intercept), color = "red", label = "fitted line data")
         plt.scatter(voltage[start: end], log_current[start: end], color = "green", label = "linear")
         plt.xlabel("voltage (V)")
