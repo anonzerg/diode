@@ -35,7 +35,7 @@ def read_save_serial_data(port, baud_rate, output_path, duration):
             # read data until the duration runs out
             while time.time() - start_time < duration:
 
-                # check if serial in free
+                # check if serial is free
                 if ser.in_waiting > 0:
 
                 # read data from serial
