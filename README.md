@@ -25,7 +25,7 @@ launch ardiono program and upload main.ino located at ./diode/main.ino
 
 install required libraries:
 ```
-pip install requirments.txt
+pip install -r requirments.txt
 ```
 move to project directory and run program:
 ```
