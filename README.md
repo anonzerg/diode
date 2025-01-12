@@ -1,20 +1,25 @@
 # diode
-program to find boltzmann's constant and planck's constant using arduino board.
+program to find boltzmann's and planck's constant from diode and LED with Arduino board.
 
 # usage:
 
 first create a python virtual environment:
+replace /path/to/new/virtual/environment with whatever you want.
+on **Linux**:
 ```
-python -m venv /path/to/new/virtual/environment
-cd /path/to/new/virtual/environment
+python3 -m venv /path/to/new/virtual/environment
+```
+on **Windows**:
+```
+python -m venv C:\path\to\new\virtual\environment
 ```
 activate virtual environment on **Windows**:
 ```
 Scripts\activate
 ```
-on **Linux**:
+on **Linux** with bash or zsh:
 ```
-source ./bin/activate
+source <venv>/bin/activate
 ```
 clone repo into virtual environment:
 ```
