@@ -1,6 +1,10 @@
-# Asst. Prof. Majtaba Nasiri
-# BSPhy. M. Mahdi Farrokhi
-# Nov 20, 2023
+"""
+Asst. Prof. Majtaba Nasiri
+BSPhy. M. Mahdi Farrokhi
+Nov 20, 2023
+
+module to find connected Arduino board.
+"""
 
 import serial
 import time
@@ -50,15 +54,4 @@ def read_save_serial_data(port, baud_rate, output_path, duration):
         print(f"[-] I/O error: {error}")
     except Exception as error:
         print(f"[-] unexpected error: {error}")
-
-if __name__ == "__main__":
-    try:
-        serial_port = find_serial_port()
-        baud_rate = 9600
-        output_path = "./data/data.txt"
-        duration = int(input("input data gathering duration is seconds: "))
-
-        read_save_serial_data(serial_port, baud_rate, output_path, duration)
-    except Exception as error:
-        print(f"{error}")
 
