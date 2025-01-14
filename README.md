@@ -32,7 +32,7 @@ pip install -r requirments.txt
 connect your board to you pc using USB.  
 read manual and connect diode and data pins according to images blow.
 
-![circuit](/circuit.png)
+![circuit](/complementary_materials/circuit.png)
 
 launch arduino program and upload main.ino located at ./diode/main.ino  
 move to project directory and run program:
