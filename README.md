@@ -9,7 +9,7 @@ $ git clone https://github.com/anonzerg/diode.git
 $ cd diode
 ```
 then create a python virtual environment:  
-pay attention to `python3` when you want to create a virtual environment.  
+pay attention to `python3` when you want to create a virtual environment on **linux**.  
 after activating, you can just use `python`.  
 on **Linux**:
 ```
