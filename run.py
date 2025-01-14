@@ -38,7 +38,7 @@ def main():
         read_save_serial_data(serial_port, baud_rate, output_path, duration)
     except Exception as error:
         print(f"{error}")
-        #exit(1)
+        exit(1)
 
 
     try:
